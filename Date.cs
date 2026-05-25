@@ -42,29 +42,116 @@ namespace Kalender
                 //31 days: 2678400
             //seconds in a regular year: 31536000
             //seconds in a leap year: 31622400
+
             string[] dateArray = new string[6];
-            long leapDays, yearSeconds, year;
-            int monthSeconds, daySeconds, hourSeconds, minuteSeconds, seconds;
+            long years, leapDays, token = TimeToken;
+            int leapSeconds, monthSeconds;
+            byte days, hours, minutes, seconds;
 
-            leapDays = timeToken / (4 * 31536000); //one leap day per 4 years
-            if (leapDays >= 25) //=>100/4 = 25 leapDays per 100 years
+            //years:
+            leapDays = token / (31536000 * 4 + 86400); //number of leapdays in token
+            token -= leapDays * 86400; //substract leapdays from token
+            years = token / 31536000; //number of years can now be calculated easily
+            dateArray[0] = years.ToString();
+            token -= years * 31536000; //substract years from token, now contains only months, days, etc
+
+            //months:
+            //check for leap year
+            if (years % 4 == 0 && (years % 100 != 0 || years % 400 == 0))
             {
-                leapDays -= leapDays / 25; //substract one for every leap years divisble by 100
+                leapSeconds = 86400; //add a leap day
             }
-            if (leapDays >= 96) //=>(25-1)*4 = 96 leapDays per 400 years
+            else
             {
-                leapDays += leapDays / 96; //add one for every leap year divisbile by 400
+                leapSeconds = 0;
             }
-            yearSeconds = 31536000 + leapDays * 86400;
+            //go through cases, since months are irregular
+            if (token > 28857600 + leapSeconds) //December
+            {
+                dateArray[1] = "12";
+                monthSeconds = 28857600;
+            }
+            else if (token > 26265600 + leapSeconds) //November
+            {
+                dateArray[1] = "11";
+                monthSeconds = 26265600;
+            }
+            else if (token > 23587200 + leapSeconds) //October
+            {
+                dateArray[1] = "10";
+                monthSeconds = 23587200;
+            }
+            else if (token > 20995200 + leapSeconds) //September
+            {
+                dateArray[1] = "09";
+                monthSeconds = 20995200;
+            }
+            else if (token > 18316800 + leapSeconds) //August
+            {
+                dateArray[1] = "08";
+                monthSeconds = 18316800;
+            }
+            else if (token > 15638400 + leapSeconds) //Juli
+            {
+                dateArray[1] = "07";
+                monthSeconds = 15638400;
+            }
+            else if (token > 13046400 + leapSeconds) //June
+            {
+                dateArray[1] = "06";
+                monthSeconds = 13046400;
+            }
+            else if (token > 10368000 + leapSeconds) //May
+            {
+                dateArray[1] = "05";
+                monthSeconds = 10368000;
+            }
+            else if (token > 7776000 + leapSeconds) //April
+            {
+                dateArray[1] = "04";
+                monthSeconds = 7776000;
+            }
+            else if (token > 5097600 + leapSeconds) //March
+            {
+                dateArray[1] = "03";
+                monthSeconds = 5097600;
+            }
+            else if (token > 2678400) //February
+            {
+                dateArray[1] = "02";
+                monthSeconds = 2678400;
+            }
+            else //January
+            {
+                dateArray[1] = "01";
+                monthSeconds = 0;
+            }
 
+            token -= monthSeconds;
 
+            //remaining time units are regular:
+            //days:
+            days = (byte)(token / 86400);
+            token -= days * 86400;
+            if (days > 9) { dateArray[2] = days.ToString(); }
+            else { dateArray[2] = "0" + days.ToString(); }
 
-            dateArray[0] = (timeToken / yearSeconds + 2000).ToString();
-            dateArray[1] = (timeToken % yearSeconds / monthSeconds).ToString();
-            dateArray[2] = (timeToken % (yearSeconds + monthSeconds) / daySeconds).ToString();
-            dateArray[3] = (timeToken % (yearSeconds + monthSeconds + daySeconds) / hourSeconds).ToString();
-            dateArray[4] = (timeToken % (yearSeconds + monthSeconds + daySeconds + hourSeconds) / minuteSeconds).ToString();
-            dateArray[5] = (timeToken % (yearSeconds + monthSeconds + daySeconds + hourSeconds + minuteSeconds)).ToString();
+            //hours:
+            hours = (byte)(token / 3600);
+            token -= hours * 3600;
+            if (hours > 9) { dateArray[3] = hours.ToString(); }
+            else { dateArray[3] = "0" + hours.ToString(); }
+
+            //minutes:
+            minutes = (byte)(token / 60);
+            token -= minutes * 60;
+            if (minutes > 9) {dateArray[4] = minutes.ToString(); }
+            else { dateArray[4]= "0" + minutes.ToString(); }
+
+            //seconds:
+            seconds = (byte)token;
+            if (seconds > 9) { dateArray[5] =  seconds.ToString(); }
+            else { dateArray[5] = "0" + seconds.ToString(); }
 
             return dateArray;
         }
