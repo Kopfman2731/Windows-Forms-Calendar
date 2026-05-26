@@ -12,16 +12,11 @@ namespace Kalender
 
         public long TimeToken { get { return timeToken; } set { timeToken = value; } }
 
-        //Constructors
+        //Constructor
 
         public Date(long t)
         {
             this.timeToken = t;
-        }
-
-        public Date()
-        {
-            this.timeToken = 0;
         }
 
         //Methods
