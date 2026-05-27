@@ -35,7 +35,7 @@ namespace Calendar
             return result;
         }
 
-        private List<string> GetDateTimeList() //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
+        public List<string> GetDateTimeList() //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
         {
             //seconds in a day: 86400
             //seconds in a month
