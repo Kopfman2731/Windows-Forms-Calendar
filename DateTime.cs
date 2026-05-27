@@ -46,7 +46,7 @@ namespace Calendar
             //seconds in a regular year: 31536000
             //seconds in a leap year: 31622400
 
-            List<string> dateTimeList = new List<string>;
+            List<string> dateTimeList = new List<string>();
             long years, leapDays, token = TimeToken;
             int leapSeconds, monthSeconds;
             byte days, hours, minutes, seconds;
