@@ -10,7 +10,7 @@ namespace Calendar
     {
         private string title;
         private DateTime start; //if just the date, set to the first second of the day
-        private DateTime end; //optional - if set, gives duration and activates startTime
+        private DateTime end; //optional - DateTime of end
         private DateTime reminder; //optional
         private bool usesTime; // determine if time should be used, or just the date
         //private int dateFormat; //0 = YMD, 1 = DMY, 2 = MDY
@@ -55,6 +55,23 @@ namespace Calendar
 
         //Methods:
 
+        public List<string> GetDate()// YYYY,MM,DD
+        {
+            List<string> list = start.GetDateTimeList();
+            list.RemoveRange(3, 3);
+            return list;
+        }
 
+        public List<string> GetTime()// hh,mm,ss 
+        {
+            List<string> list = start.GetDateTimeList();
+            list.RemoveRange(0, 3);
+            return list;
+        }
+
+        public List<string> GetDateTimeList()// YYYY,MM,DD,hh,mm,ss
+        {
+            return start.GetDateTimeList();
+        }
     }
 }
