@@ -19,7 +19,49 @@ namespace Calendar
             this.timeToken = t;
         }
 
+        public DateTime(DateTime dt)
+        {
+            this.timeToken = dt.timeToken;
+        }
+
+        public DateTime(string s)//YYYY-MM-DDThh:mm:ss  OR  YYYY-MM-DD-hh-mm-ss  OR  etc...
+        {
+            List<string> list = (List<string>)s.Split('-','T',':').ToList();
+            this.timeToken = ListToDateTime(list);
+        }
+
+        public DateTime(string s, int f)
+        {
+            //f == 0: YYYY-MM-DDThh:mm:ss
+        }
+
         //Methods
+
+        private long ListToDateTime(List<string> list) //calculate all the seconds
+        {
+            long t = 0, years, leapDays;
+            byte months, days, hours, minutes, seconds;
+
+            //years:
+            long.TryParse(list[0], out years);
+            years -= 2000;
+
+            //months
+            byte.TryParse(list[1], out months);
+
+            //days:
+            byte.TryParse(list[2], out days);
+
+            //hours:
+            byte.TryParse(list[3], out hours); //maybe list.Count < 3 possible??? <<<<<<<<<<<====================== FIX
+
+            //minutes:
+            byte.TryParse(list[4], out minutes);
+
+            //seconds:
+            byte.TryParse(list[5], out seconds);
+
+        }
 
         public override string ToString() //YYYY-MM-DDThh:mm:ss
         {
