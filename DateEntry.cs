@@ -22,6 +22,8 @@ namespace Calendar
         {
             title = t;
             start = s;
+            end = null;
+            reminder = null;
             usesTime = st;
         }
 
@@ -29,7 +31,9 @@ namespace Calendar
         {
             title = t;
             start = s;
-            end = s;
+            end = e;
+            reminder = null;
+            usesTime = true;
         }
 
         public DateEntry (string t, DateTime s, DateTime e, DateTime r) //full constructor, saves date, time and a reminder
