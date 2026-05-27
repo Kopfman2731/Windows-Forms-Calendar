@@ -139,6 +139,15 @@ namespace Calendar
             if (days > 9) { dateTimeList.Add(days.ToString()); }
             else { dateTimeList.Add("0" + days.ToString()); }
 
+            //if DateEntry does not use time, then token == 1
+            if (token == 1)
+            {
+                dateTimeList.Add("00");
+                dateTimeList.Add("00");
+                dateTimeList.Add("01");
+                return dateTimeList;
+            }
+
             //hours:
             hours = (byte)(token / 3600);
             token -= hours * 3600;
