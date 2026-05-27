@@ -1,4 +1,4 @@
-namespace Kalender
+namespace Calendar
 {
     internal static class Program
     {

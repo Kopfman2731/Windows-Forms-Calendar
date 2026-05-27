@@ -1,4 +1,4 @@
-namespace Kalender
+namespace Calendar
 {
     public partial class Form1 : Form
     {
