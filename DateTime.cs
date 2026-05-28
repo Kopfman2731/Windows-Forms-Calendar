@@ -24,43 +24,110 @@ namespace Calendar
             this.timeToken = dt.timeToken;
         }
 
-        public DateTime(string s)//YYYY-MM-DDThh:mm:ss  OR  YYYY-MM-DD-hh-mm-ss  OR  etc...
+        public DateTime(string s, int f = 0)// eg. YYYY-MM-DDThh:mm:ss
         {
-            List<string> list = (List<string>)s.Split('-','T',':').ToList();
-            this.timeToken = ListToDateTime(list);
-        }
-
-        public DateTime(string s, int f)
-        {
-            //f == 0: YYYY-MM-DDThh:mm:ss
+            List<string> list = (List<string>)s.Split('-', 'T', ':', '.', ' ', '/').ToList();
+            string tmp;
+            //f == 0: YMD
+            //f == 1: DMY
+            //f == 2: MDY
+            if (f == 1)
+            {
+                tmp = list[0];
+                list[0] = list[2];
+                list[2] = tmp;
+            }
+            else if (f == 2)
+            {
+                tmp = list[0];
+                list[0] = list[2];
+                list[2] = list[1];
+                list[1] = tmp;
+            }
+            this.timeToken = ListToTimeToken(list);
         }
 
         //Methods
 
-        private long ListToDateTime(List<string> list) //calculate all the seconds
+        private long ListToTimeToken(List<string> list) //calculate all the seconds
         {
             long t = 0, years, leapDays;
             byte months, days, hours, minutes, seconds;
 
-            //years:
             long.TryParse(list[0], out years);
-            years -= 2000;
-
-            //months
             byte.TryParse(list[1], out months);
-
-            //days:
             byte.TryParse(list[2], out days);
-
-            //hours:
-            byte.TryParse(list[3], out hours); //maybe list.Count < 3 possible??? <<<<<<<<<<<====================== FIX
-
-            //minutes:
+            byte.TryParse(list[3], out hours); //maybe list.Count < 3 possible??? <<<<<<<<<<<====================== REVISIT
             byte.TryParse(list[4], out minutes);
-
-            //seconds:
             byte.TryParse(list[5], out seconds);
 
+            years -= 2000;
+            
+            leapDays = years / 4;
+            leapDays -= years / 100;
+            leapDays += years / 400;
+
+            //regular years:
+            t += years * 31536000;
+            //add leap day for this year:
+            //since years are zero based, starting with 2000, in DateTime, when years are divided by 4, every 1st year is a leap years instead of every 4th
+            if (years % 4 > 0 || (months > 2 || (months == 2 && days == 29))) { leapDays += 1; }
+            //months:
+            switch (months)
+            {
+                case 1:
+                    t += 2678400;
+                    break;
+                case 2:
+                    t += 5097600;
+                    break;
+                case 3:
+                    t += 7776000;
+                    break;
+                case 4:
+                    t += 10368000;
+                    break;
+                case 5:
+                    t += 13046400;
+                    break;
+                case 6:
+                    t += 15724800;
+                    break;
+                case 7:
+                    t += 18403200;
+                    break;
+                case 8:
+                    t += 21081600;
+                    break;
+                case 9:
+                    t += 23673600;
+                    break;
+                case 10:
+                    t += 26352000;
+                    break;
+                case 11:
+                    t += 28944000;
+                    break;
+                case 12:
+                    t += 31622400;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(months));
+            }
+
+            //days:
+            t += (days + leapDays) * 86400;
+
+            //hours:
+            t += hours * 3600;
+
+            //minutes:
+            t += minutes * 60;
+
+            //seconds:
+            t += seconds;
+
+            return t;
         }
 
         public override string ToString() //YYYY-MM-DDThh:mm:ss
