@@ -98,11 +98,11 @@
             // 
             lbTop.AutoSize = true;
             lbTop.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbTop.Location = new Point(452, 12);
+            lbTop.Location = new Point(422, 12);
             lbTop.Name = "lbTop";
-            lbTop.Size = new Size(29, 45);
+            lbTop.Size = new Size(90, 45);
             lbTop.TabIndex = 2;
-            lbTop.Text = " ";
+            lbTop.Text = " Year";
             // 
             // btMenu
             // 
