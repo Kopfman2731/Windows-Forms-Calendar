@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             btEntry = new Button();
-            lbTop = new Label();
+            lbYear = new Label();
             btMenu = new Button();
             btSwitchView = new Button();
             btNext = new Button();
@@ -83,6 +83,7 @@
             lbWeek3 = new Label();
             lbWeek6 = new Label();
             lbWeek5 = new Label();
+            lbMonth = new Label();
             SuspendLayout();
             // 
             // btEntry
@@ -94,15 +95,15 @@
             btEntry.Text = "New Entry";
             btEntry.UseVisualStyleBackColor = true;
             // 
-            // lbTop
+            // lbYear
             // 
-            lbTop.AutoSize = true;
-            lbTop.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbTop.Location = new Point(422, 12);
-            lbTop.Name = "lbTop";
-            lbTop.Size = new Size(90, 45);
-            lbTop.TabIndex = 2;
-            lbTop.Text = " Year";
+            lbYear.AutoSize = true;
+            lbYear.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbYear.Location = new Point(422, 507);
+            lbYear.Name = "lbYear";
+            lbYear.Size = new Size(90, 45);
+            lbYear.TabIndex = 2;
+            lbYear.Text = " Year";
             // 
             // btMenu
             // 
@@ -581,11 +582,22 @@
             lbWeek5.TabIndex = 59;
             lbWeek5.Text = "5";
             // 
+            // lbMonth
+            // 
+            lbMonth.AutoSize = true;
+            lbMonth.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbMonth.Location = new Point(366, 12);
+            lbMonth.Name = "lbMonth";
+            lbMonth.Size = new Size(206, 45);
+            lbMonth.TabIndex = 61;
+            lbMonth.Text = "MonthName";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(894, 566);
+            Controls.Add(lbMonth);
             Controls.Add(lbWeek6);
             Controls.Add(lbWeek5);
             Controls.Add(lbWeek4);
@@ -639,7 +651,7 @@
             Controls.Add(btNext);
             Controls.Add(btSwitchView);
             Controls.Add(btMenu);
-            Controls.Add(lbTop);
+            Controls.Add(lbYear);
             Controls.Add(btEntry);
             Name = "Form1";
             Text = "Form1";
@@ -649,7 +661,7 @@
 
         #endregion
         private Button btEntry;
-        private Label lbTop;
+        private Label lbYear;
         private Button btMenu;
         private Button btSwitchView;
         private Button btNext;
@@ -703,5 +715,6 @@
         private Label lbWeek3;
         private Label lbWeek6;
         private Label lbWeek5;
+        private Label lbMonth;
     }
 }
