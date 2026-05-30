@@ -15,10 +15,16 @@ namespace Calendar
 
         //Constructors
 
-        public Date(DateTime dt) //must be the first second of the day
+        public Date(DateTime dt) //should be the first second of the day, as in 00:00:00
         {
-            
+            List<string> list = dt.GetDateTimeList(3);
+            short.TryParse(list[0], out year);
+            byte.TryParse(list[1], out month);
+            byte.TryParse(list[2], out day);
+            entries = null;
         }
+
+
 
         //Getter, Setter:
 
