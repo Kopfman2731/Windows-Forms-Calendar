@@ -48,6 +48,13 @@ namespace Calendar
         }
 
         //Methods
+        //seconds in a day: 86400
+        //seconds in a month
+        //28 days: 2419200
+        //29 days: 2505600
+        //30 days: 2592000
+        //31 days: 2678400
+        //seconds in a regular year: 31536000
 
         private long ListToTimeToken(List<string> list) //calculate all the seconds
         {
@@ -146,14 +153,6 @@ namespace Calendar
 
         public List<string> GetDateTimeList() //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
         {
-            //seconds in a day: 86400
-            //seconds in a month
-            //28 days: 2419200
-            //29 days: 2505600
-            //30 days: 2592000
-            //31 days: 2678400
-            //seconds in a regular year: 31536000
-            //seconds in a leap year: 31622400
 
             List<string> dateTimeList = new List<string>();
             long years, leapDays, token = TimeToken;
