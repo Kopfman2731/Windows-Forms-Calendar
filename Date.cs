@@ -15,25 +15,23 @@ namespace Calendar
 
         //Constructors
 
-        public Date(DateTime dt, byte offset = 0)
+        public Date(DateTime dt, byte offset = 0) //optional offset by +/- days
         {
             DateTime dateTime;
             if (offset != 0)
             {
-                dateTime = new DateTime();
+                dateTime = new DateTime(dt.TimeToken + offset * 86400);
             }
             else
             {
                 dateTime = dt;
             }
-                List<string> list = dateTime.GetDateTimeList(3);
+            List<string> list = dateTime.GetDateTimeList(3);
             long.TryParse(list[0], out year);
             byte.TryParse(list[1], out month);
             byte.TryParse(list[2], out day);
-            entries = null;
+            entries = new List<DateEntry>();
         }
-
-
 
         //Getter, Setter:
 
