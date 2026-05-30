@@ -258,13 +258,13 @@ namespace Calendar
             if (fields == 3) { return dateTimeList; }
 
             //if DateEntry does not use time, then token == 1
-            if (token == 1)
+            if (token == 0)
             {
                 dateTimeList.Add("00");
                 if (fields == 4) { return dateTimeList; }
                 dateTimeList.Add("00");
                 if (fields == 5) { return dateTimeList; }
-                dateTimeList.Add("01");
+                dateTimeList.Add("00");
                 return dateTimeList;
             }
 
