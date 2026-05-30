@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calendar
 {
-    internal class DateTime
+    internal class DateTimeToken
     {
         private long timeToken;// seconds since 2000-01-01T00:00:00
 
@@ -14,17 +14,17 @@ namespace Calendar
 
         //Constructor
 
-        public DateTime(long t)
+        public DateTimeToken(long t)
         {
             this.timeToken = t;
         }
 
-        public DateTime(DateTime dt)
+        public DateTimeToken(DateTimeToken dt)
         {
             this.timeToken = dt.timeToken;
         }
 
-        public DateTime(string s, int f = 0)// eg. YYYY-MM-DDThh:mm:ss
+        public DateTimeToken(string s, int f = 0)// eg. YYYY-MM-DDThh:mm:ss
         {
             List<string> list = (List<string>)s.Split('-', 'T', ':', '.', ' ', '/').ToList();
             string tmp;
@@ -139,7 +139,7 @@ namespace Calendar
 
         public override string ToString() //YYYY-MM-DDThh:mm:ss
         {
-            List<string> dateList = GetDateTimeList();
+            List<string> dateList = GetList();
             string result = "";
             for (int i = 0; i < dateList.Count; i++)
             {
@@ -151,7 +151,7 @@ namespace Calendar
             return result;
         }
 
-        public List<string> GetDateTimeList(int fields = 6) //returns string[6] with [0] == ...YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
+        public List<string> GetList(int fields = 6) //returns string[6] with [0] == ...YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
         {
 
             List<string> dateTimeList = new List<string>();
@@ -292,33 +292,33 @@ namespace Calendar
             return dateTimeList;
         }
 
-        public string GetDateTimeYear()
+        public string GetYear()
         {
-            return GetDateTimeList(1).Last();
+            return GetList(1).Last();
         }
 
-        public string GetDateTimeMonth()
+        public string GetMonth()
         {
-            return GetDateTimeList(2).Last();
+            return GetList(2).Last();
         }
 
-        public string GetDateTimeDay()
+        public string GetDay()
         {
-            return GetDateTimeList(3).Last();
+            return GetList(3).Last();
         }
-         public string GetDateTimeHour()
+         public string GetHour()
         {
-            return GetDateTimeList(4).Last();
-        }
-
-        public string GetDateTimeMinute()
-        {
-            return GetDateTimeList(5).Last();
+            return GetList(4).Last();
         }
 
-        public string GetDateTimeSecond()
+        public string GetMinute()
         {
-            return GetDateTimeList(6).Last();
+            return GetList(5).Last();
+        }
+
+        public string GetSecond()
+        {
+            return GetList(6).Last();
         }
     }
 }

@@ -9,16 +9,16 @@ namespace Calendar
     internal class DateEntry
     {
         private string title;
-        private DateTime start; //if just the date, set to the first second of the day
-        private DateTime end; //optional - DateTime of end
-        private DateTime reminder; //optional
+        private DateTimeToken start; //if just the date, set to the first second of the day
+        private DateTimeToken end; //optional - DateTime of end
+        private DateTimeToken reminder; //optional
         private bool usesTime; // determine if time should be used, or just the date
         //private int dateFormat; //0 = YMD, 1 = DMY, 2 = MDY
         //private bool limeyTimeFormat; // false = 00:00, true = 12.00 p.m.
 
         //Constructors:
 
-        public DateEntry (string t, DateTime s, bool st) //minimal constructor, saves date and ,if st == true, time
+        public DateEntry (string t, DateTimeToken s, bool st) //minimal constructor, saves date and ,if st == true, time
         {
             title = t;
             start = s;
@@ -27,7 +27,7 @@ namespace Calendar
             usesTime = st;
         }
 
-        public DateEntry (string t, DateTime s, DateTime e) //reduced constructor, saves date, time and duration
+        public DateEntry (string t, DateTimeToken s, DateTimeToken e) //reduced constructor, saves date, time and duration
         {
             title = t;
             start = s;
@@ -36,7 +36,7 @@ namespace Calendar
             usesTime = true;
         }
 
-        public DateEntry (string t, DateTime s, DateTime e, DateTime r) //full constructor, saves date, time and a reminder
+        public DateEntry (string t, DateTimeToken s, DateTimeToken e, DateTimeToken r) //full constructor, saves date, time and a reminder
         {
             title = t;
             start = s;
@@ -48,30 +48,30 @@ namespace Calendar
         // Getter, Setter:
 
         public string Titel { get { return title; } set { title = value; } }
-        public DateTime Start { get { return start; } set { start = value; } }
-        public DateTime End { get { return end; } set { end = value; }  }
-        public DateTime Reminder { get { return reminder; } set { reminder = value; } }
+        public DateTimeToken Start { get { return start; } set { start = value; } }
+        public DateTimeToken End { get { return end; } set { end = value; }  }
+        public DateTimeToken Reminder { get { return reminder; } set { reminder = value; } }
         public bool UsesTime { get { return usesTime; } set { usesTime = value; } }
 
         //Methods:
 
         public List<string> GetDate()// YYYY,MM,DD
         {
-            List<string> list = start.GetDateTimeList();
+            List<string> list = start.GetList();
             list.RemoveRange(3, 3);
             return list;
         }
 
         public List<string> GetTime()// hh,mm,ss 
         {
-            List<string> list = start.GetDateTimeList();
+            List<string> list = start.GetList();
             list.RemoveRange(0, 3);
             return list;
         }
 
         public List<string> GetDateTimeList()// YYYY,MM,DD,hh,mm,ss
         {
-            return start.GetDateTimeList();
+            return start.GetList();
         }
     }
 }
