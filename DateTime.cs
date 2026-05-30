@@ -151,10 +151,13 @@ namespace Calendar
             return result;
         }
 
-        public List<string> GetDateTimeList() //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
+        public List<string> GetDateTimeList(int fields = 6) //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
         {
 
             List<string> dateTimeList = new List<string>();
+            
+            if (fields < 1) { return dateTimeList; }
+
             long years, leapDays, token = TimeToken;
             int leapSeconds, monthSeconds;
             byte days, hours, minutes, seconds;
@@ -164,6 +167,9 @@ namespace Calendar
             token -= leapDays * 86400; //substract leapdays from token
             years = token / 31536000 + 2000; //number of years can now be calculated easily
             dateTimeList.Add(years.ToString());
+
+            if (fields == 1) { return dateTimeList; }
+
             token -= years * 31536000; //substract years from token, now contains only months, days, etc
 
             //months:
@@ -238,6 +244,8 @@ namespace Calendar
                 monthSeconds = 0;
             }
 
+            if (fields == 2) { return dateTimeList; }
+
             token -= monthSeconds;
 
             //remaining time units are regular:
@@ -247,11 +255,15 @@ namespace Calendar
             if (days > 9) { dateTimeList.Add(days.ToString()); }
             else { dateTimeList.Add("0" + days.ToString()); }
 
+            if (fields == 3) { return dateTimeList; }
+
             //if DateEntry does not use time, then token == 1
             if (token == 1)
             {
                 dateTimeList.Add("00");
+                if (fields == 4) { return dateTimeList; }
                 dateTimeList.Add("00");
+                if (fields == 5) { return dateTimeList; }
                 dateTimeList.Add("01");
                 return dateTimeList;
             }
@@ -262,11 +274,15 @@ namespace Calendar
             if (hours > 9) { dateTimeList.Add(hours.ToString()); }
             else { dateTimeList.Add("0" + hours.ToString()); }
 
+            if (fields == 4) { return dateTimeList; }
+
             //minutes:
             minutes = (byte)(token / 60);
             token -= minutes * 60;
             if (minutes > 9) {dateTimeList.Add(minutes.ToString()); }
             else { dateTimeList.Add("0" + minutes.ToString()); }
+
+            if (fields == 5) { return dateTimeList; }
 
             //seconds:
             seconds = (byte)token;
