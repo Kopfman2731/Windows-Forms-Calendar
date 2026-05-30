@@ -8,10 +8,10 @@ namespace Calendar
 {
     internal class Date
     {
-        List<DateEntry> entries;
-        byte day;
-        byte month;
-        long year;
+        private List<DateEntry> entries;
+        private byte day;
+        private byte month;
+        private long year;
 
         //Constructors
 
