@@ -151,7 +151,7 @@ namespace Calendar
             return result;
         }
 
-        public List<string> GetDateTimeList(int fields = 6) //returns string[6] with [0] == YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
+        public List<string> GetDateTimeList(int fields = 6) //returns string[6] with [0] == ...YYYY, [1] == MM, [2] == DD, [3] == hh, [4] == mm, [5] == ss
         {
 
             List<string> dateTimeList = new List<string>();
@@ -290,6 +290,35 @@ namespace Calendar
             else { dateTimeList.Add("0" + seconds.ToString()); }
 
             return dateTimeList;
+        }
+
+        public string GetDateTimeYear()
+        {
+            return GetDateTimeList(1).Last();
+        }
+
+        public string GetDateTimeMonth()
+        {
+            return GetDateTimeList(2).Last();
+        }
+
+        public string GetDateTimeDay()
+        {
+            return GetDateTimeList(3).Last();
+        }
+         public string GetDateTimeHour()
+        {
+            return GetDateTimeList(4).Last();
+        }
+
+        public string GetDateTimeMinute()
+        {
+            return GetDateTimeList(5).Last();
+        }
+
+        public string GetDateTimeSecond()
+        {
+            return GetDateTimeList(6).Last();
         }
     }
 }
