@@ -57,7 +57,7 @@ namespace Calendar
             this.timeToken = ListToTimeToken(list);
         }
 
-        private long ListToTimeToken(List<string> list) //calculate all the seconds
+        public long ListToTimeToken(List<string> list) //calculate all the seconds
         {
             long t = 0, years, leapDays;
             byte months, days, hours, minutes, seconds;
