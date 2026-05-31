@@ -24,29 +24,6 @@ namespace Calendar
             this.timeToken = dt.timeToken;
         }
 
-        public DateTimeToken(string s, int f = 0)// eg. YYYY-MM-DDThh:mm:ss
-        {
-            List<string> list = (List<string>)s.Split('-', 'T', ':', '.', ' ', '/').ToList();
-            string tmp;
-            //f == 0: YMD
-            //f == 1: DMY
-            //f == 2: MDY
-            if (f == 1)
-            {
-                tmp = list[0];
-                list[0] = list[2];
-                list[2] = tmp;
-            }
-            else if (f == 2)
-            {
-                tmp = list[0];
-                list[0] = list[2];
-                list[2] = list[1];
-                list[1] = tmp;
-            }
-            this.timeToken = ListToTimeToken(list);
-        }
-
         //Methods
         //seconds in a day: 86400
         //seconds in a month
@@ -55,6 +32,30 @@ namespace Calendar
         //30 days: 2592000
         //31 days: 2678400
         //seconds in a regular year: 31536000
+
+        public DateTimeToken(string s, int format = 0)// eg. YYYY-MM-DDThh:mm:ss
+        {
+            //f == 0: YMD
+            //f == 1: DMY
+            //f == 2: MDY
+
+            List<string> list = (List<string>)s.Split('-', 'T', ':', '.', ' ', '/').ToList();
+            string tmp;
+            if (format == 1)
+            {
+                tmp = list[0];
+                list[0] = list[2];
+                list[2] = tmp;
+            }
+            else if (format == 2)
+            {
+                tmp = list[0];
+                list[0] = list[2];
+                list[2] = list[1];
+                list[1] = tmp;
+            }
+            this.timeToken = ListToTimeToken(list);
+        }
 
         private long ListToTimeToken(List<string> list) //calculate all the seconds
         {
