@@ -303,11 +303,171 @@ namespace Calendar
             return GetList(2).Last();
         }
 
+        public string GetMonthName()
+        {
+            string month = GetList(2).Last();
+            switch (month)
+            {
+                case "01":
+                    return "January";
+                case "02":
+                    return "February";
+                case "03":
+                    return "March";
+                case "04":
+                    return "April";
+                case "05":
+                    return "May";
+                case "06":
+                    return "June";
+                case "07":
+                    return "Juli";
+                case "08":
+                    return "August";
+                case "09":
+                    return "September";
+                case "10":
+                    return "October";
+                case "11":
+                    return "November";
+                case "12":
+                    return "December";
+                default:
+                    throw new ArgumentException("Month string out of bounds!");
+                    return "";
+            }
+        }
+
         public string GetDay()
         {
             return GetList(3).Last();
         }
-         public string GetHour()
+
+        public string GetDayName()
+        {
+            //extract relevant data from this.dateTimeToken
+            int leapDays, firstWeekDay, dayOfYear;
+            List<string> list = GetList(3);
+            if (!long.TryParse(list[0], out long year))
+            {
+                throw new ArgumentException("Year string not convertible to long!");
+            }
+            if (!byte.TryParse(list[1], out byte month))
+            {
+                throw new ArgumentException("Month string not convertible to byte!");
+            }
+            if (!byte.TryParse(list[2], out byte day))
+            {
+                throw new ArgumentException("Day string not convertible to byte!");
+            }
+            //find first weekday of the year
+
+            //the gregorian calendar repeats every 400 years and 01.01.2000 was a saturday
+            //find the number of years in this 400 year cycle:
+            leapDays = (int)year % 400;
+            //find the number of passed leap years in this cycle
+            leapDays /= 4; //one every four years
+            leapDays -= leapDays / 25; //substract one every (4 * 25 =) 100 years
+            //first weekdays of a year are in regular sequence, except one is skipped after a leap year and we start on a saturday, so + 5
+            firstWeekDay = (int)((year % 400) + leapDays + 5) % 7;
+
+            //find day of the year (accounting for the leap day this year if present)
+            dayOfYear = DayOfYear(list);
+
+            //find "index" if day of the year:
+            dayOfYear = (dayOfYear + firstWeekDay) % 7;
+
+            switch (dayOfYear)
+            {
+                case 0:
+                    return "Monday";
+                case 1:
+                    return "Tuesday";
+                case 2:
+                    return "Wednesday";
+                case 3:
+                    return "Thursday";
+                case 4:
+                    return "Friday";
+                case 5:
+                    return "Saturday";
+                case 6:
+                    return "Sunday";
+                default:
+                    throw new ArgumentException("I dont know what happend in GetDayName()!");
+            }
+        }
+
+        public short DayOfYear(List<string> dateTimeList) //returns the 0-based number of the day in the year
+        {
+            if (dateTimeList.Count < 3)
+            {
+                throw new ArgumentException("DateTimeList too short!");
+            }
+            if (!short.TryParse(dateTimeList[2], out short dayOfYear))
+            {
+                throw new ArgumentException("Day string not convertible to short!");
+            }
+            if (!byte.TryParse(dateTimeList[1], out byte month))
+            {
+                throw new ArgumentException("Month string not convertible to byte!");
+            }
+            if (!long.TryParse(dateTimeList[0], out long year))
+            {
+                throw new ArgumentException("Year string not convertible to long!");
+            }
+            //calculate as 1-based
+            switch (dateTimeList[1])
+            {
+                case "12":
+                    dayOfYear += 30;
+                    goto case "11";
+                case "11":
+                    dayOfYear += 31;
+                    goto case "10";
+                case "10":
+                    dayOfYear += 30;
+                    goto case "09";
+                case "09":
+                    dayOfYear += 31;
+                    goto case "08";
+                case "08":
+                    dayOfYear += 31;
+                    goto case "07";
+                case "07":
+                    dayOfYear += 30;
+                    goto case "06";
+                case "06":
+                    dayOfYear += 31;
+                    goto case "05";
+                case "05":
+                    dayOfYear += 30;
+                    goto case "04";
+                case "04":
+                    dayOfYear += 31;
+                    goto case "03";
+                case "03":
+                    dayOfYear += 28;
+                    goto case "02";
+                case "02":
+                    dayOfYear += 31;
+                    break;
+                case "01":
+                    break;
+                default:
+                    throw new ArgumentException("Month string out of bounds!");
+            }
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)//if this is a leap year...
+            {
+                if (month > 2)//... and today is not a leap day and the date is past leapDay...
+                {
+                    dayOfYear++; //... add leap day
+                }
+            }
+            return dayOfYear--; //return as 0-based
+        }
+
+        public string GetHour()
         {
             return GetList(4).Last();
         }
